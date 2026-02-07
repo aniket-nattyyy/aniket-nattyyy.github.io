@@ -2,151 +2,103 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Aniket | Official Site</title>
+<title>Baap Aniket | Interactive Art</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
 
 <style>
 
-/* Body with Real Blink */
 body{
   margin:0;
   height:100vh;
+  background:black;
   overflow:hidden;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-family:'Orbitron',sans-serif;
-
-  animation:bgflash 1s infinite alternate;
+  font-family:Arial, sans-serif;
 }
 
-/* Background Flash */
-@keyframes bgflash{
-  0%{background:#ff004c;}
-  50%{background:#ff66a3;}
-  100%{background:#ff1a75;}
-}
-
-/* Main Box */
-.box{
-  background:rgba(0,0,0,0.7);
-  padding:35px 30px;
-  border-radius:20px;
-  text-align:center;
-  cursor:pointer;
-  box-shadow:0 0 40px hotpink;
-  z-index:5;
-  animation:pulse 2s infinite;
-}
-
-/* Box Animation */
-@keyframes pulse{
-  0%{transform:scale(1);}
-  50%{transform:scale(1.05);}
-  100%{transform:scale(1);}
-}
-
-/* Big Name */
-#name{
-  font-size:70px;
-  color:#ffd1e8;
-  text-shadow:0 0 25px deeppink;
-}
-
-/* Text */
-p{
-  color:white;
-  font-size:17px;
-  margin:8px 0;
-}
-
-/* Falling Flowers */
-.flower{
+/* Floating Circles */
+.circle{
   position:absolute;
-  top:-40px;
-  font-size:28px;
-  animation:fall linear infinite;
-  pointer-events:none;
+  width:60px;
+  height:60px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.25);
+  animation:float 6s linear infinite;
 }
 
-/* Flower Fall */
-@keyframes fall{
-  from{transform:translateY(-40px) rotate(0deg);}
-  to{transform:translateY(110vh) rotate(360deg);}
+/* Animation */
+@keyframes float{
+  from{transform:translateY(100vh) scale(0.5);}
+  to{transform:translateY(-100px) scale(1.2);}
+}
+
+/* Center Text */
+.center{
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  color:white;
+  text-align:center;
+  z-index:5;
+}
+
+.center h1{
+  font-size:42px;
+  letter-spacing:5px;
+  text-shadow:0 0 15px white;
+}
+
+.center p{
+  opacity:0.7;
+  font-size:14px;
 }
 
 </style>
 </head>
 
-<body onclick="startAll()">
+<body>
 
-<div class="box">
-  <div id="name">ANIKET</div>
-
-  <p>🌹 Tap Screen To Start 🌹</p>
-
-  <p><b>Made by Baap Aniket 💪</b></p>
+<div class="center">
+  <h1>BAAP ANIKET</h1>
+  <p>Tap Anywhere 🎵</p>
+  <p>Interactive Art Website</p>
 </div>
 
 <audio id="sound" src="sound.mp3"></audio>
 
 <script>
 
-let started=false;
+const audio = document.getElementById("sound");
 
-const flowers=["🌹","🌸","🌺","💐","🌷","❤️"];
+/* Create Floating Art */
+function createCircle(){
 
-function startAll(){
+  const c = document.createElement("div");
+  c.classList.add("circle");
 
-  if(started) return;
-  started=true;
+  c.style.left = Math.random()*100+"vw";
+  c.style.width = 30+Math.random()*80+"px";
+  c.style.height = c.style.width;
 
-  playSound();
-  startVibration();
-  startFlowers();
+  document.body.appendChild(c);
+
+  setTimeout(()=>{
+    c.remove();
+  },6000);
 
 }
 
-/* Sound */
-function playSound(){
-  const audio=document.getElementById("sound");
-  audio.loop=true;
+/* Generate Art */
+setInterval(createCircle,500);
+
+
+/* Play Sound On Touch */
+document.body.addEventListener("click",()=>{
+
+  audio.currentTime = 0;
   audio.play();
-}
 
-/* Continuous Vibration */
-function startVibration(){
-  if(navigator.vibrate){
-    setInterval(()=>{
-      navigator.vibrate([300,150,300]);
-    },1200);
-  }
-}
-
-/* Falling Flowers */
-function startFlowers(){
-
-  setInterval(()=>{
-
-    const f=document.createElement("div");
-    f.classList.add("flower");
-
-    f.innerHTML=flowers[Math.floor(Math.random()*flowers.length)];
-
-    f.style.left=Math.random()*100+"vw";
-    f.style.animationDuration=(3+Math.random()*5)+"s";
-
-    document.body.appendChild(f);
-
-    setTimeout(()=>{
-      f.remove();
-    },9000);
-
-  },350);
-
-}
+});
 
 </script>
 
