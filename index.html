@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Aniket Mishra | Sound Website</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(to right, #141e30, #243b55);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      color: white;
+      text-align: center;
+    }
+
+    .box {
+      padding: 40px;
+      border-radius: 15px;
+      background: rgba(0,0,0,0.5);
+      cursor: pointer;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="box" onclick="playSound()">
+    <h1>Welcome 👋</h1>
+    <p>Touch / Click to Play Sound</p>
+    <p>Made by Aniket Mishra ❤️</p>
+  </div>
+
+  <audio id="sound" src="sound.mp3"></audio>
+
+  <script>
+    function playSound() {
+      const audio = document.getElementById("sound");
+      audio.currentTime = 0;
+      audio.play();
+    }
+  </script>
+
+</body>
+</html>
