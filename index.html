@@ -2,43 +2,46 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Aniket | Welcome</title>
+<title>Aniket | Official Site</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
 
 <style>
 
+/* Body with Real Blink */
 body{
   margin:0;
   height:100vh;
-  background:radial-gradient(circle, #ff5fa2, #8b0037);
   overflow:hidden;
   display:flex;
   justify-content:center;
   align-items:center;
-  font-family:'Orbitron', sans-serif;
-  animation:blink 2s infinite;
+  font-family:'Orbitron',sans-serif;
+
+  animation:bgflash 1s infinite alternate;
 }
 
-/* Screen Blink */
-@keyframes blink{
-  0%{filter:brightness(1);}
-  50%{filter:brightness(1.4);}
-  100%{filter:brightness(1);}
+/* Background Flash */
+@keyframes bgflash{
+  0%{background:#ff004c;}
+  50%{background:#ff66a3;}
+  100%{background:#ff1a75;}
 }
 
 /* Main Box */
 .box{
-  background:rgba(0,0,0,0.6);
-  padding:40px;
+  background:rgba(0,0,0,0.7);
+  padding:35px 30px;
   border-radius:20px;
   text-align:center;
   cursor:pointer;
-  box-shadow:0 0 40px pink;
+  box-shadow:0 0 40px hotpink;
+  z-index:5;
   animation:pulse 2s infinite;
 }
 
+/* Box Animation */
 @keyframes pulse{
   0%{transform:scale(1);}
   50%{transform:scale(1.05);}
@@ -48,77 +51,100 @@ body{
 /* Big Name */
 #name{
   font-size:70px;
-  color:#ffb6d9;
-  text-shadow:0 0 20px hotpink;
+  color:#ffd1e8;
+  text-shadow:0 0 25px deeppink;
 }
 
 /* Text */
 p{
   color:white;
-  font-size:18px;
+  font-size:17px;
+  margin:8px 0;
 }
 
 /* Falling Flowers */
 .flower{
   position:absolute;
-  top:-50px;
-  font-size:30px;
+  top:-40px;
+  font-size:28px;
   animation:fall linear infinite;
+  pointer-events:none;
 }
 
+/* Flower Fall */
 @keyframes fall{
-  from{transform:translateY(-50px);}
-  to{transform:translateY(110vh);}
+  from{transform:translateY(-40px) rotate(0deg);}
+  to{transform:translateY(110vh) rotate(360deg);}
 }
 
 </style>
 </head>
 
-<body onclick="playAll()">
+<body onclick="startAll()">
 
 <div class="box">
   <div id="name">ANIKET</div>
-  <p>🌹 Tap To Feel Magic 🌹</p>
-  <p>Made With ❤️</p>
+
+  <p>🌹 Tap Screen To Start 🌹</p>
+
+  <p><b>Made by Baap Aniket 💪</b></p>
 </div>
 
 <audio id="sound" src="sound.mp3"></audio>
 
 <script>
 
-const emojis = ["🌹","🌸","🌺","💐","🌷"];
+let started=false;
 
-// Create Flowers
-function createFlower(){
-  const flower = document.createElement("div");
-  flower.classList.add("flower");
-  flower.innerHTML = emojis[Math.floor(Math.random()*emojis.length)];
+const flowers=["🌹","🌸","🌺","💐","🌷","❤️"];
 
-  flower.style.left = Math.random()*100+"vw";
-  flower.style.animationDuration = (3+Math.random()*5)+"s";
+function startAll(){
 
-  document.body.appendChild(flower);
+  if(started) return;
+  started=true;
 
-  setTimeout(()=>{
-    flower.remove();
-  },8000);
+  playSound();
+  startVibration();
+  startFlowers();
+
 }
 
-// Continuous Flowers
-setInterval(createFlower,400);
-
-// Play Effects
-function playAll(){
-
-  // Sound
+/* Sound */
+function playSound(){
   const audio=document.getElementById("sound");
-  audio.currentTime=0;
+  audio.loop=true;
   audio.play();
+}
 
-  // Continuous Vibration
+/* Continuous Vibration */
+function startVibration(){
   if(navigator.vibrate){
-    navigator.vibrate([300,100,300,100,300,100,300]);
+    setInterval(()=>{
+      navigator.vibrate([300,150,300]);
+    },1200);
   }
+}
+
+/* Falling Flowers */
+function startFlowers(){
+
+  setInterval(()=>{
+
+    const f=document.createElement("div");
+    f.classList.add("flower");
+
+    f.innerHTML=flowers[Math.floor(Math.random()*flowers.length)];
+
+    f.style.left=Math.random()*100+"vw";
+    f.style.animationDuration=(3+Math.random()*5)+"s";
+
+    document.body.appendChild(f);
+
+    setTimeout(()=>{
+      f.remove();
+    },9000);
+
+  },350);
 
 }
 
