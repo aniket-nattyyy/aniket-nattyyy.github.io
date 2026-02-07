@@ -1,104 +1,153 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Baap Aniket | Interactive Art</title>
+<title>Baap Aniket | Welcome</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Poppins&display=swap" rel="stylesheet">
 
 <style>
 
 body{
   margin:0;
   height:100vh;
-  background:black;
   overflow:hidden;
-  font-family:Arial, sans-serif;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#12001a;
+  font-family:'Poppins',sans-serif;
+  animation:bgblink 1s infinite alternate;
 }
 
-/* Floating Circles */
-.circle{
-  position:absolute;
-  width:60px;
-  height:60px;
-  border-radius:50%;
-  background:rgba(255,255,255,0.25);
-  animation:float 6s linear infinite;
+/* Screen Blink */
+@keyframes bgblink{
+  0%{background:#12001a;}
+  50%{background:#2a003a;}
+  100%{background:#12001a;}
 }
 
-/* Animation */
-@keyframes float{
-  from{transform:translateY(100vh) scale(0.5);}
-  to{transform:translateY(-100px) scale(1.2);}
-}
-
-/* Center Text */
-.center{
-  position:fixed;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  color:white;
+/* Center Box */
+.box{
+  background:rgba(0,0,0,0.7);
+  padding:35px 30px;
+  border-radius:25px;
   text-align:center;
-  z-index:5;
+  color:white;
+  box-shadow:0 0 40px hotpink;
+  z-index:10;
+  animation:pulse 2s infinite;
 }
 
-.center h1{
-  font-size:42px;
-  letter-spacing:5px;
-  text-shadow:0 0 15px white;
+@keyframes pulse{
+  0%{transform:scale(1);}
+  50%{transform:scale(1.06);}
+  100%{transform:scale(1);}
 }
 
-.center p{
-  opacity:0.7;
-  font-size:14px;
+/* Big Name */
+#name{
+  font-size:60px;
+  color:#ff8fcf;
+  text-shadow:0 0 25px deeppink;
+  margin-bottom:10px;
+}
+
+/* Description */
+#desc{
+  font-size:15px;
+  opacity:0.9;
+  margin-bottom:15px;
+}
+
+/* Flowers */
+.flower{
+  position:absolute;
+  top:-40px;
+  font-size:28px;
+  animation:fall linear infinite;
+  pointer-events:none;
+}
+
+@keyframes fall{
+  from{transform:translateY(-40px) rotate(0deg);}
+  to{transform:translateY(110vh) rotate(360deg);}
 }
 
 </style>
 </head>
 
-<body>
+<body onclick="startShow()">
 
-<div class="center">
-  <h1>BAAP ANIKET</h1>
-  <p>Tap Anywhere 🎵</p>
-  <p>Interactive Art Website</p>
+<div class="box">
+  <div id="name">BAAP ANIKET</div>
+
+  <div id="desc">
+    Tap karo bhai aur awaaj full karlo,<br>
+    speaker saaf ho jayega 😄🔊
+  </div>
+
+  <div>🌹 Touch Anywhere 🌹</div>
 </div>
 
 <audio id="sound" src="sound.mp3"></audio>
 
 <script>
 
-const audio = document.getElementById("sound");
+let started=false;
+const flowers=["🌹","🌸","🌺","💐","🌷","❤️","💖"];
 
-/* Create Floating Art */
-function createCircle(){
+function startShow(){
 
-  const c = document.createElement("div");
-  c.classList.add("circle");
+  if(started) return;
+  started=true;
 
-  c.style.left = Math.random()*100+"vw";
-  c.style.width = 30+Math.random()*80+"px";
-  c.style.height = c.style.width;
-
-  document.body.appendChild(c);
-
-  setTimeout(()=>{
-    c.remove();
-  },6000);
+  playSound();
+  startVibration();
+  startFlowers();
 
 }
 
-/* Generate Art */
-setInterval(createCircle,500);
-
-
-/* Play Sound On Touch */
-document.body.addEventListener("click",()=>{
-
-  audio.currentTime = 0;
+/* Sound */
+function playSound(){
+  const audio=document.getElementById("sound");
+  audio.loop=true;
   audio.play();
+}
 
-});
+/* Continuous Vibration */
+function startVibration(){
+  if(navigator.vibrate){
+    setInterval(()=>{
+      navigator.vibrate([300,150,300,150]);
+    },1000);
+  }
+}
+
+/* Flowers Generator */
+function startFlowers(){
+
+  setInterval(()=>{
+
+    const f=document.createElement("div");
+    f.classList.add("flower");
+
+    f.innerHTML=flowers[Math.floor(Math.random()*flowers.length)];
+
+    f.style.left=Math.random()*100+"vw";
+    f.style.animationDuration=(2+Math.random()*4)+"s";
+
+    document.body.appendChild(f);
+
+    setTimeout(()=>{
+      f.remove();
+    },8000);
+
+  },200); // lots of flowers
+
+}
 
 </script>
 
