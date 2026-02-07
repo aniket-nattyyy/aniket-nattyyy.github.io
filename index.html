@@ -1,53 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Aniket Mishra | Sound Website</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Aniket Mishra | Welcome</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      background: linear-gradient(to right, #141e30, #243b55);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: Arial, sans-serif;
-      color: white;
-      text-align: center;
-    }
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins&display=swap" rel="stylesheet">
 
-    .box {
-      padding: 40px;
-      border-radius: 15px;
-      background: rgba(0,0,0,0.5);
-      cursor: pointer;
-    }
+<style>
+body{
+  margin:0;
+  height:100vh;
+  background:url("https://images.unsplash.com/photo-1501004318641-b39e6451bec6");
+  background-size:cover;
+  background-position:center;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:'Poppins',sans-serif;
+  overflow:hidden;
+}
 
-    h1 {
-      margin-bottom: 10px;
-    }
-  </style>
+.overlay{
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.4);
+}
+
+.card{
+  position:relative;
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(12px);
+  padding:40px 30px;
+  border-radius:25px;
+  text-align:center;
+  color:white;
+  box-shadow:0 0 30px pink;
+  animation:glow 2s infinite alternate;
+}
+
+@keyframes glow{
+  from{box-shadow:0 0 10px pink;}
+  to{box-shadow:0 0 40px deeppink;}
+}
+
+h1{
+  font-family:'Great Vibes',cursive;
+  font-size:40px;
+  margin:0;
+  animation:blink 1.5s infinite;
+}
+
+@keyframes blink{
+  0%,100%{opacity:1;}
+  50%{opacity:0.3;}
+}
+
+p{
+  margin:10px 0 20px;
+}
+
+button{
+  padding:12px 25px;
+  border:none;
+  border-radius:30px;
+  background:linear-gradient(to right,#ff9a9e,#fad0c4);
+  font-size:16px;
+  font-weight:600;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+button:hover{
+  transform:scale(1.1);
+  box-shadow:0 0 20px pink;
+}
+
+.footer{
+  margin-top:15px;
+  font-size:13px;
+  opacity:0.8;
+}
+</style>
 </head>
 
 <body>
 
-  <div class="box" onclick="playSound()">
-    <h1>Welcome 👋</h1>
-    <p>Touch / Click to Play Sound</p>
-    <p>Made by Aniket Mishra ❤️</p>
+<div class="overlay"></div>
+
+<div class="card">
+  <h1>🌹 Welcome 🌹</h1>
+  <p>Tap & Feel Magic ✨</p>
+
+  <button onclick="playEffect()">Play 🔊</button>
+
+  <div class="footer">
+    Made by Aniket Mishra ❤️
   </div>
+</div>
 
-  <audio id="sound" src="sound.mp3"></audio>
+<audio id="sound" src="sound.mp3"></audio>
 
-  <script>
-    function playSound() {
-      const audio = document.getElementById("sound");
-      audio.currentTime = 0;
-      audio.play();
-    }
-  </script>
+<script>
+function playEffect(){
+
+  // Sound
+  const audio = document.getElementById("sound");
+  audio.currentTime = 0;
+  audio.play();
+
+  // Vibration
+  if(navigator.vibrate){
+    navigator.vibrate([200,100,200]);
+  }
+
+  // Screen Flash
+  document.body.style.filter="brightness(1.4)";
+  setTimeout(()=>{
+    document.body.style.filter="brightness(1)";
+  },200);
+
+}
+</script>
 
 </body>
-</html>
+  </html>
