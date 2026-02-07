@@ -1,9 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Baap Aniket | Welcome</title>
+<title>Baap Aniket | Fire Love</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Poppins&display=swap" rel="stylesheet">
@@ -17,56 +16,62 @@ body{
   display:flex;
   justify-content:center;
   align-items:center;
-  background:#12001a;
+  background:#120018;
   font-family:'Poppins',sans-serif;
-  animation:bgblink 1s infinite alternate;
 }
 
-/* Screen Blink */
-@keyframes bgblink{
-  0%{background:#12001a;}
-  50%{background:#2a003a;}
-  100%{background:#12001a;}
+/* Blink Class */
+.blink{
+  animation:blink 0.1s infinite alternate;
 }
 
-/* Center Box */
+@keyframes blink{
+  from{background:#120018;}
+  to{background:#ff0055;}
+}
+
+/* Main Box */
 .box{
-  background:rgba(0,0,0,0.7);
+  background:rgba(0,0,0,0.75);
   padding:35px 30px;
   border-radius:25px;
   text-align:center;
   color:white;
-  box-shadow:0 0 40px hotpink;
+  box-shadow:0 0 50px hotpink;
   z-index:10;
   animation:pulse 2s infinite;
 }
 
 @keyframes pulse{
   0%{transform:scale(1);}
-  50%{transform:scale(1.06);}
+  50%{transform:scale(1.05);}
   100%{transform:scale(1);}
 }
 
-/* Big Name */
+/* Name */
 #name{
   font-size:60px;
   color:#ff8fcf;
-  text-shadow:0 0 25px deeppink;
-  margin-bottom:10px;
+  text-shadow:0 0 30px deeppink;
 }
 
-/* Description */
+/* Desc */
 #desc{
   font-size:15px;
-  opacity:0.9;
-  margin-bottom:15px;
+  margin:10px 0;
 }
 
-/* Flowers */
-.flower{
+/* Footer */
+#footer{
+  font-size:13px;
+  opacity:0.9;
+}
+
+/* Flowers + Fire */
+.particle{
   position:absolute;
   top:-40px;
-  font-size:28px;
+  font-size:26px;
   animation:fall linear infinite;
   pointer-events:none;
 }
@@ -86,10 +91,10 @@ body{
 
   <div id="desc">
     Tap karo bhai aur awaaj full karlo,<br>
-    speaker saaf ho jayega 😄🔊
+    speaker saaf ho jayega 🔊😄
   </div>
 
-  <div>🌹 Touch Anywhere 🌹</div>
+  <div id="footer">Made by Baap Aniket 💪🔥</div>
 </div>
 
 <audio id="sound" src="sound.mp3"></audio>
@@ -97,16 +102,20 @@ body{
 <script>
 
 let started=false;
-const flowers=["🌹","🌸","🌺","💐","🌷","❤️","💖"];
+
+const particles=["🌹","🌸","🌺","💐","🌷","❤️","🔥","🔥","💖"];
 
 function startShow(){
 
   if(started) return;
   started=true;
 
+  // Start Blink
+  document.body.classList.add("blink");
+
   playSound();
   startVibration();
-  startFlowers();
+  startParticles();
 
 }
 
@@ -117,35 +126,35 @@ function playSound(){
   audio.play();
 }
 
-/* Continuous Vibration */
+/* Vibration */
 function startVibration(){
   if(navigator.vibrate){
     setInterval(()=>{
-      navigator.vibrate([300,150,300,150]);
-    },1000);
+      navigator.vibrate([250,100,250]);
+    },900);
   }
 }
 
-/* Flowers Generator */
-function startFlowers(){
+/* Flowers + Fire */
+function startParticles(){
 
   setInterval(()=>{
 
-    const f=document.createElement("div");
-    f.classList.add("flower");
+    const p=document.createElement("div");
+    p.classList.add("particle");
 
-    f.innerHTML=flowers[Math.floor(Math.random()*flowers.length)];
+    p.innerHTML=particles[Math.floor(Math.random()*particles.length)];
 
-    f.style.left=Math.random()*100+"vw";
-    f.style.animationDuration=(2+Math.random()*4)+"s";
+    p.style.left=Math.random()*100+"vw";
+    p.style.animationDuration=(2+Math.random()*3)+"s";
 
-    document.body.appendChild(f);
+    document.body.appendChild(p);
 
     setTimeout(()=>{
-      f.remove();
-    },8000);
+      p.remove();
+    },7000);
 
-  },200); // lots of flowers
+  },180); // many particles
 
 }
 
